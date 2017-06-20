@@ -1,7 +1,7 @@
-const React = require('react');
-const SelectLanguage = require('./SelectLanguage');
-const ReposGrid = require('./ReposGrid');
-const api = require('../utils/api');
+const React           = require('react');
+const SelectLanguage  = require('./SelectLanguage');
+const ReposGrid       = require('./ReposGrid');
+const api             = require('../utils/api');
 
 class Popular extends React.Component {
   constructor(props) {
