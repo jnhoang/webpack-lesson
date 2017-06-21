@@ -1,5 +1,7 @@
 const React         = require('react');
 const PlayerInput   = require('./PlayerInput');
+const PlayerPreview = require('./PlayerPreview');
+const Link = require('react-router-dom').Link;
 
 class Battle extends React.Component {
   constructor(props) {
@@ -12,9 +14,9 @@ class Battle extends React.Component {
     , playerTwoImage    : null
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleSubmit   = this.handleSubmit.bind(this);
+    this.handleReset    = this.handleReset.bind(this);
   }
-
   handleSubmit(id, username) {
     let newState = {};
     newState[id + 'Name']  = username;
@@ -22,13 +24,31 @@ class Battle extends React.Component {
     
     this.setState(newState);
   }
-  render() {
-    let playerOneName = this.state.playerOneName;
-    let playerTwoName = this.state.playerTwoName;
+  handleReset(id) {
+    let newState = {};
+    newState[id + 'Name']  = '';
+    newState[id + 'Image'] = '';
     
+    this.setState(newState);
+  }
+  render() {
+    let match           = this.props.match;
+    let playerOneName   = this.state.playerOneName;
+    let playerTwoName   = this.state.playerTwoName;
+    let playerOneImage  = this.state.playerOneImage;
+    let playerTwoImage  = this.state.playerTwoImage;
+
     return (
       <div>
         <div className="row">
+          {playerOneImage !== null &&
+            <PlayerPreview
+              avatar={playerOneImage}
+              username={playerOneName}
+              onReset={this.handleReset}
+              id="playerOne" />
+          }
+          
           {!playerOneName && 
             <PlayerInput 
               id="playerOne"
@@ -36,6 +56,13 @@ class Battle extends React.Component {
               onSubmit={ this.handleSubmit } />
           }
 
+          {playerTwoImage !== null &&
+            <PlayerPreview
+              avatar={playerTwoImage}
+              username={playerTwoName}
+              onReset={ this.handleReset }
+              id="playerTwo" />
+          }
           {!playerTwoName && 
             <PlayerInput
               id="playerTwo"
@@ -43,6 +70,17 @@ class Battle extends React.Component {
               onSubmit={ this.handleSubmit } />
           }
         </div>
+
+        {playerOneImage && playerTwoImage && 
+          <Link
+            className="button"
+            to={{
+              pathname: match.url + '/results'
+            , search: '?playerOneName=' + playerOneName + '&playerTwoName' + playerTwoName
+            }}>
+            Battle
+          </Link>
+        }
       </div>
     );
   }
