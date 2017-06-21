@@ -9,7 +9,7 @@ class Battle extends React.Component {
 
     this.state = {
       playerOneName     : ''
-    , playerTwoname     : ''
+    , playerTwoName     : ''
     , playerOneImage    : null
     , playerTwoImage    : null
     };
@@ -28,8 +28,8 @@ class Battle extends React.Component {
     let newState = {};
     newState[id + 'Name']  = '';
     newState[id + 'Image'] = '';
-    
     this.setState(newState);
+    console.log(this.state)
   }
   render() {
     let match           = this.props.match;
@@ -41,12 +41,16 @@ class Battle extends React.Component {
     return (
       <div>
         <div className="row">
-          {playerOneImage !== null &&
+          {!playerOneImage ? null :
             <PlayerPreview
               avatar={playerOneImage}
-              username={playerOneName}
-              onReset={this.handleReset}
-              id="playerOne" />
+              username={playerOneName}>
+              <button
+                className="reset"
+                onClick={ this.handleReset.bind(null, 'playerOne') }>
+                Reset
+              </button>
+            </PlayerPreview>
           }
           
           {!playerOneName && 
@@ -56,12 +60,16 @@ class Battle extends React.Component {
               onSubmit={ this.handleSubmit } />
           }
 
-          {playerTwoImage !== null &&
+          {!playerTwoImage ? null :
             <PlayerPreview
               avatar={playerTwoImage}
-              username={playerTwoName}
-              onReset={ this.handleReset }
-              id="playerTwo" />
+              username={playerTwoName}>
+              <button
+                className="reset"
+                onClick={ this.handleReset.bind(null, 'playerTwo') }>
+                Reset
+              </button>
+            </PlayerPreview>
           }
           {!playerTwoName && 
             <PlayerInput
@@ -76,7 +84,7 @@ class Battle extends React.Component {
             className="button"
             to={{
               pathname: match.url + '/results'
-            , search: '?playerOneName=' + playerOneName + '&playerTwoName' + playerTwoName
+            , search: '?playerOneName=' + playerOneName + '&playerTwoName=' + playerTwoName
             }}>
             Battle
           </Link>

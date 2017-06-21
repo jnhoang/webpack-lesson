@@ -10,12 +10,8 @@ const PlayerPreview = (props) => {
           src={props.avatar}
           alt={"Avatar for" + props.username}/>
         <h2 className="username">@{props.username}</h2>
-        <button
-          className="reset"
-          onClick={ props.onReset.bind(null, props.id) }>
-          Reset
-        </button>
       </div>
+      {props.children}
     </div>
   );
 };
@@ -23,8 +19,6 @@ const PlayerPreview = (props) => {
 PlayerPreview.propTypes = {
   avatar      : PropTypes.string.isRequired
 , username    : PropTypes.string.isRequired
-, id          : PropTypes.string.isRequired
-, onReset     : PropTypes.func.isRequired
 }
 
 module.exports = PlayerPreview;
