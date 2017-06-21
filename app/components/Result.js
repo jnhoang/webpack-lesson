@@ -18,32 +18,29 @@ class Result extends React.Component {
   }
   componentDidMount() {
     let players = queryString.parse(this.props.location.search);
-    
+
     api.battle([
       players.playerOneName
     , players.playerTwoName
     ])
-    .then( function(players) {
-      console.log(players);
-
+    .then( (players) => {
       if (players === null) {
-        return this.setState(function() {
-          return {
+        return (
+          this.setState({
             error: 'looks like there was an error. Check that both users exists on Github'
           , loading: false
-          }
-        });
+          })
+        );
       }
-
-      this.setState(function() {
-        return {
+      this.setState({
           error     : null
         , winner    : players[0]
         , loser     : players[1]
         , loading   : false
-        }
-      })
-    }.bind(this))
+      });
+
+    })
+    .catch( (err) => console.warn(err) );
   }
   render() {
     let error     = this.state.error;

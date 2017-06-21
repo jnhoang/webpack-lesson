@@ -33,16 +33,17 @@ function getProfile(username) {
 }
 
 function getRepos(username) {
-  return axios.get('https://api.github.com/users/' + username + '/repos' +'&per_page=100');
+  console.log('username: ', username)
+  return axios.get('https://api.github.com/users/' + username + '/repos');
+}
+function getStarCount(repos) {
+  return repos.data.reduce( (count, repo) => count + repo.stargazers_count, 0);
 }
 // function getStarCount(repos) {
-//   return repos.data.reduce( (count, repo) => return count + repo.stargazers_count, 0);
+//   return repos.data.reduce(function(count, repo) {
+//     return count + repo.stargazers_count;
+//   }, 0);
 // }
-function getStarCount(repos) {
-  return repos.data.reduce(function(count, repo) {
-    return count + repo.stargazers_count;
-  }, 0);
-}
 function calculateScore(profile, repos) {
   let followers   = profile.followers;
   let totalStars  = getStarCount(repos);
