@@ -6,6 +6,7 @@ var Route         = ReactRouter.Route;
 var Popular   = require('./Popular');
 var Nav       = require('./Nav');
 var Home      = require('./Home');
+var Battle    = require('./Battle');
 
 class App extends React.Component{
   render() {
@@ -14,8 +15,9 @@ class App extends React.Component{
         <div className="container">
           <Nav />
 
-          <Route exact path="/" component={Home}></Route>
+          <Route exact path="/"  component={Home} />
           <Route path="/popular" component={Popular} />
+          <Route path="/battle"  component={Battle} />
         </div>
         
       </Router>
