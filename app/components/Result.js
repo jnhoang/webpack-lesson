@@ -1,9 +1,10 @@
-const React         = require('react');
-const queryString   = require('query-string');
-const api           = require('../utils/api');
-const Link          = require('react-router-dom').Link;
-const PlayerPreview = require('./PlayerPreview');
-const Player        = require('./Player');
+const React           = require('react');
+const queryString     = require('query-string');
+const api             = require('../utils/api');
+const Link            = require('react-router-dom').Link;
+const PlayerPreview   = require('./PlayerPreview');
+const Player          = require('./Player');
+const Loading         = require('./Loading');
 
 class Result extends React.Component {
   constructor(props) {
@@ -27,8 +28,8 @@ class Result extends React.Component {
       if (players === null) {
         return (
           this.setState({
-            error: 'looks like there was an error. Check that both users exists on Github'
-          , loading: false
+            error     : 'looks like there was an error. Check that both users exists on Github'
+          , loading   : false
           })
         );
       }
@@ -49,7 +50,7 @@ class Result extends React.Component {
     let loading   = this.state.loading;
     
     if (loading === true) {
-      return (<p>Loading</p>);
+      return (<Loading />);
     }
 
     if (error) {
