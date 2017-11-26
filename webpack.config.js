@@ -1,22 +1,49 @@
 const path                = require('path');
 const HtmlWebpackPlugin   = require('html-webpack-plugin');
+const webpack             = require('webpack');
 
-module.exports = {
+const HtmlWebpackConfig  = new HtmlWebpackPlugin({ template: 'app/index.html'}); 
+
+const config = {
   entry: './app/index.js'
+, resolve: {
+    extensions: ['.js', '.jsx', '.json']
+  }
 , module: {
     rules: [
-      { test: /\.(js)$/, use: 'babel-loader' }
-    , { test: /\.(jsx)$/, use: 'babel-loader' }
-    , { test: /\.css$/ , use: [ 'style-loader', 'css-loader' ] }
+      {
+        test    : /\.jsx?$/,
+        exclude : /node_modules/,
+        loader  : 'babel-loader',
+        query   : {
+          presets : ['es2015', 'react']
+        }
+      },
+      { 
+        test    : /\.css$/,
+        use     : [ 'style-loader', 'css-loader' ] 
+      }
     ]
   }
 , output: {
     path: path.resolve(__dirname, 'dist')
   , filename: 'index_bundle.js'
   }
-, plugins: [
-    new HtmlWebpackPlugin({
-      template: 'app/index.html'
-    })
+, plugins: [ 
+    HtmlWebpackConfig
+  ,  
   ]
+};
+
+if (process.env.NODE_ENV === 'production') {
+  config.plugins.push(
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      }
+    })
+  , new webpack.optimize.UglifyJsPlugin()
+  )
 }
+
+module.exports = config;

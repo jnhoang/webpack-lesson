@@ -4,8 +4,9 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "build": "NODE_ENV='production' webpack -p",
+    "start": "webpack-dev-server --open",
+    "deploy": "npm run build && firebase deploy"
   },
   "babel": {
     "presets": [
